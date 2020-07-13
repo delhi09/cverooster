@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mt-5">設定</h1>
+<div class="text-info">※ メール通知機能・Slact通知機能は未実装です。</div>
+{% for error_message in context.form.non_field_errors %}
+<div class="text-danger">{{ error_message }}</div>
+{% endfor %}
+<form class="mt-5" method="POST">
+    <div class="col-md-6">
+        <h2 class="mt-5 border-bottom border-warning">フィルター設定</h2>
+        <div class="form-group col-md-6">
+            <h3 class="mt-5 border-bottom border-warning">Severity(from)</h3>
+            <select name="severity" class="form-control">
+                <option value="ALL" {% if not context.user_settings_save_data.severity_code %}selected{% endif %}>指定なし
+                </option>
+                {% for cve_severity in context.cve_severity_options %}
+                <option value="{{ cve_severity.cve_severity_code }}"
+                    {% if context.user_settings_save_data.severity_code == cve_severity.cve_severity_code %}selected{% endif %}>
+                    {{ cve_severity.cve_severity_name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <h3 class="mt-5 border-bottom border-warning">公開年(from)</h3>
+            <select name="year" class="form-control">
+                <option value="" {% if not context.user_settings_save_data.year %}selected{% endif %}>指定なし</option>
+                </option>
+                {% for year in context.cve_year_options %}
+                <option value="{{ year }}" {% if context.user_settings_save_data.year == year %}selected{% endif %}>
+                    {{ year }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <h3 class="mt-5 border-bottom border-warning">ステータス</h3>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="label_all" name="label" value="ALL"
+                    {% if not context.user_settings_save_data.label_id_list %}checked{% endif %}>
+                <label class="form-check-label" for="label_all">指定なし</label>
+            </div>
+            {% for cve_label in context.cve_label_options %}
+            <div class="form-check">
+                <input id="{{ cve_label.cve_label_code }}" class="form-check-input check_label" type="checkbox"
+                    name="label" value="{{ cve_label.cve_label_id }}"
+                    {% if cve_label.cve_label_id in context.user_settings_save_data.label_id_list %}checked{% endif %}>
+                <label class="form-check-label"
+                    for="{{ cve_label.cve_label_code }}">{{ cve_label.cve_label_name }}</label>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="form-group col-md-10">
+            <h3 class="mt-5 border-bottom border-warning">登録キーワードによる絞り込み</h3>
+            <div class=" form-check">
+                <input class="form-check-input" type="radio" name="enable_user_keyword" value="true"
+                    id="enable_user_keyword_on"
+                    {% if context.user_settings_save_data.enable_user_keyword %}checked{% endif %}>
+                <label class="form-check-label" for="enable_user_keyword_on">ON</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="enable_user_keyword" value="false"
+                    id="enable_user_keyword_off"
+                    {% if not context.user_settings_save_data.enable_user_keyword %}checked{% endif %}>
+                <label class="form-check-label" for="enable_user_keyword_off">OFF</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+        <h2 class="mt-5 border-bottom border-warning">メール通知</h2>
+        <div class="form-group col-md-6">
+            <label for="input_mail_address">メールアドレス</label>
+            <input type="email" name="mail_address"
+                value="{{ context.user_settings_save_data.mail_address|default:"" }}" class="form-control"
+                id="input_mail_address">
+            {% for error_message in context.form.mail_address.errors %}
+            <div class="text-danger">{{ error_message }}</div>
+            {% endfor %}
+        </div>
+        <div class="form-group col-md-6 mt-3">
+            <div>通知</div>
+            <div class=" form-check">
+                <input class="form-check-input" type="radio" name="notify_mail" value="true" id="notify_mail_on"
+                    {% if context.user_settings_save_data.notify_mail %}checked{% endif %}>
+                <label class="form-check-label" for="notify_mail_on">ON</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="notify_mail" value="false" id="notify_mail_off"
+                    {% if not context.user_settings_save_data.notify_mail %}checked{% endif %}>
+                <label class="form-check-label" for="notify_mail_off">OFF</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+        <h2 class="mt-5 border-bottom border-warning">Slack通知</h2>
+        <div class="form-group col-md-6">
+            <label for="input_slack_webhook_url">Slack Webhook URL</label>
+            <input type="text" name="slack_webhook_url"
+                value="{{ context.user_settings_save_data.slack_webhook_url|default:"" }}" class="form-control"
+                id="input_slack_webhook_url">
+            {% for error_message in context.form.slack_webhook_url.errors %}
+            <div class="text-danger">{{ error_message }}</div>
+            {% endfor %}
+        </div>
+        <div class="form-group col-md-6 mt-3">
+            <div>通知</div>
+            <div class=" form-check">
+                <input class="form-check-input" type="radio" name="notify_slack" value="true" id="notify_slack_on"
+                    {% if context.user_settings_save_data.notify_slack %}checked{% endif %}>
+                <label class="form-check-label" for="notify_slack_on">ON</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="notify_slack" value="false" id="notify_slack_off"
+                    {% if not context.user_settings_save_data.notify_slack %}checked{% endif %}>
+                <label class="form-check-label" for="notify_slack_off">OFF</label>
+            </div>
+        </div>
+    </div>
+    {% csrf_token %}
+    <div class="form-row mt-2">
+        <div class="form-group">
+            <button type="submit" class="btn btn-info">更新</button>
+        </div>
+    </div>
+</form>
+</div>
+{% endblock %}

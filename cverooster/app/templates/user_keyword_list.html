@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% include "elements/cve_list_template.html" %}
+{% include "elements/keyword_button_template.html" %}
+<h1 class="mt-5">登録済みキーワード一覧</h1>
+{% include "elements/keyword_list_section.html" %}
+{% include "elements/filter_keyword_section.html" %}
+<div id="result_section" class="mt-5 border-top border-warning">
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static "js/lib/js.cookie.min.js" %}"></script>
+<script src="{% static "js/lib/underscore-min.js" %}"></script>
+<script src="{% static "js/lib/moment-with-locales.min.js" %}"></script>
+<script src="{% static "js/src/user_keyword_list/collect_filter_conditions.js" %}"></script>
+<script src="{% static "js/src/common/fetch_and_render_cve_list.js" %}"></script>
+<script src="{% static "js/src/user_keyword_list/main.js" %}"></script>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% include "elements/cve_list_template.html" %}
+<h1 class="mt-5">CVE一覧</h1>
+{% if user.is_authenticated %}
+{% include "elements/filter_section_login.html" %}
+{% else %}
+{% include "elements/filter_section_nologin.html" %}
+{% endif %}
+<div id="result_section" class="mt-5 border-top border-warning">
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static "js/lib/js.cookie.min.js" %}"></script>
+<script src="{% static "js/lib/underscore-min.js" %}"></script>
+<script src="{% static "js/lib/moment-with-locales.min.js" %}"></script>
+<script src="{% static "js/src/list/collect_filter_conditions.js" %}"></script>
+<script src="{% static "js/src/common/fetch_and_render_cve_list.js" %}"></script>
+<script src="{% static "js/src/list/main.js" %}"></script>
+{% endblock %}

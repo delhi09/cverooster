@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mt-5">新規会員登録</h1>
+<form class="mt-5" method="POST">
+    {% for error_message in form.non_field_errors %}
+    <div class="text-danger">{{ error_message }}</div>
+    {% endfor %}
+    <div class="form-group col-md-6">
+        <div class="form-group col-md-6">
+            <label for="input_username">ユーザー名</label>
+            <input type="text" name="username" value="{{ form.username.value|default:"" }}" class=" form-control"
+                id="input_username">
+            {% for error_message in form.username.errors %}
+            <div class="text-danger">{{ error_message }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+        <div class="form-group col-md-6">
+            <label for="input_password">パスワード</label>
+            <input type="password" name="password1" class="form-control" id="input_password">
+            {% for error_message in form.password1.errors %}
+            <div class="text-danger">{{ error_message }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+        <div class="form-group col-md-6">
+            <label for="input_password_confirm">パスワード再入力</label>
+            <input type="password" name="password2" class="form-control" id="input_password_confirm">
+            {% for error_message in form.password2.errors %}
+            <div class="text-danger">{{ error_message }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    <!---
+    <div class="form-check ml-3">
+        <input class="form-check-input" type="checkbox" id="checkbox1" value="0">
+        <label class="form-check-label" for="checkbox1"><a href="#">利用規約</a>に同意する</label>
+    </div>
+-->
+    {% csrf_token %}
+    <div class="form-group col-md-6 mt-5">
+        <button type="submit" class="btn btn-info">送信</button>
+    </div>
+</form>
+</div>
+{% endblock %}

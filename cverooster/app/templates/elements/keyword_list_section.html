@@ -1,0 +1,9 @@
+<h2 class="mt-5 border-bottom border-warning">登録済みキーワード</h2>
+<div class="text-secondary">※大文字小文字は区別しません。</div>
+<div class="text-secondary">※登録できるキーワードの上限は50個です。</div>
+<div class="mt-5" id="registered_keyword_list">
+    {% for keyword in context.user_keyword_list %}
+    <button type="button" class="btn btn-primary btn-sm mr-3 mb-2 registered_keyword"
+        data-keyword="{{ keyword }}">{{ keyword }} ×</button>
+    {% endfor %}
+</div>

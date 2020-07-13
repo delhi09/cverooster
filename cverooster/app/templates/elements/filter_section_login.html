@@ -1,0 +1,74 @@
+<div id="filterSection" class="mt-5 border-top border-warning">
+    <h3 class="mt-5">条件</h3>
+    <form method="GET">
+        <div class="form-row">
+            <div class="form-group col-md-2 mr-5">
+                <label for="select_severity">Severity(from)</label>
+                <select id="select_severity" class="form-control" name="severity">
+                    <option value="ALL" {% if not context.user_filter_settings.severity %}selected{% endif %}>指定なし
+                    </option>
+                    {% for cve_severity in context.cve_severity_options %}
+                    <option value="{{ cve_severity.cve_severity_code }}"
+                        {% if context.user_filter_settings.severity == cve_severity.cve_severity_code %}selected{% endif %}>
+                        {{ cve_severity.cve_severity_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group col-md-2 mr-5">
+                <label for="select_year">公開年(from)</label>
+                <select id="select_year" class="form-control" name="year">
+                    <option value="ALL" {% if not context.user_filter_settings.year %}selected{% endif %}>指定なし
+                    </option>
+                    {% for year in context.cve_year_options %}
+                    <option value="{{ year }}" {% if context.user_filter_settings.year == year %}selected{% endif %}>
+                        {{ year }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group col-md-2 mr-5">
+                <div>ステータス</div>
+                <div class="form-check">
+                    <input id="label_all" class="form-check-input check_label" type="checkbox" name="label" value="ALL"
+                        {% if not context.user_filter_settings.label_id_list %}checked{% endif %}>
+                    <label class="form-check-label" for="lebel_all">指定なし</label>
+                </div>
+                {% for cve_label in context.cve_label_options %}
+                <div class="form-check">
+                    <input id="{{ cve_label.cve_label_code }}" class="form-check-input check_label" type="checkbox"
+                        name="label" value="{{ cve_label.cve_label_id }}"
+                        {% if cve_label.cve_label_id in context.user_filter_settings.label_id_list %}checked{% endif %}>
+                    <label class="form-check-label"
+                        for="{{ cve_label.cve_label_code }}">{{ cve_label.cve_label_name }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="form-row mt-2">
+            <div class="form-group col-md-3">
+                <div>登録キーワードによる絞り込み</div>
+                <div class="form-check">
+                    <input class="form-check-input check_enable_user_keyword" type="radio" id="enable_user_keyword_on"
+                        name="enable_user_keyword" value="1"
+                        {% if context.user_filter_settings.enable_user_keyword %}checked{% endif %}>
+                    <label class="form-check-label" for="enable_user_keyword_on">ON</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input check_enable_user_keyword" type="radio" id="enable_user_keyword_off"
+                        name="enable_user_keyword" value="0"
+                        {% if not context.user_filter_settings.enable_user_keyword %}checked{% endif %}>
+                    <label class="form-check-label" for="enable_user_keyword_off">OFF</label>
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="input_keyword">キーワード</label>
+                <input type="text" name="keyword" class="form-control" id="input_keyword">
+            </div>
+        </div>
+        <div class="form-row mt-2">
+            <div class="form-group">
+                <button type="button" class="btn btn-info do_filter" id="do_filter_reset_conditions">絞り込む</button>
+            </div>
+        </div>
+    </form>
+</div>

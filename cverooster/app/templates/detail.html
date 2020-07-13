@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mt-5">{{ context.cve_id }}</h1>
+<h2 class="mt-5 border-bottom border-warning">・概要</h2>
+<div class="row ml-3">{{ context.cve_description }}</div>
+{% if context.cvss3_score and context.cvss3_severity %}
+<h2 class="mt-5 border-bottom border-warning">・CVSS3</h2>
+<div class="row ml-3">{{ context.cvss3_score }} {{ context.cvss3_severity }}</div>
+{% endif %}
+{% if context.cvss3_risk_list %}
+<h2 class="mt-5 border-bottom border-warning">・CVSS3 リスク詳細</h2>
+<div id="cvss3_graph" class="mt-3 ml-3">
+    {% for cvss3_risk in context.cvss3_risk_list %}
+    <h5 class="mb-3">{{ cvss3_risk.title }}</h5>
+    <div class="progress mb-3">
+        <div class="progress-bar progress-bar-striped progress-bar-animated {{ cvss3_risk.bar_color }}"
+            role="progressbar" aria-valuerow="25" aria-valuemin="0" aria-valuemax="100"
+            style="width: {{ cvss3_risk.percentage }}%">
+            {{ cvss3_risk.expr }}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% if context.cvss2_score and context.cvss2_severity %}
+<h2 class="mt-5 border-bottom border-warning">・CVSS2</h2>
+<div class="row ml-3">{{ context.cvss2_score }} {{ context.cvss2_severity }}</div>
+{% endif %}
+{% if context.cvss2_risk_list %}
+<h2 class="mt-5 border-bottom border-warning">・CVSS2 リスク詳細</h2>
+<div id="cvss2_graph" class="mt-3 ml-3">
+    {% for cvss2_risk in context.cvss2_risk_list %}
+    <h5 class="mb-3">{{ cvss2_risk.title }}</h5>
+    <div class="progress mb-3">
+        <div class="progress-bar progress-bar-striped progress-bar-animated {{ cvss2_risk.bar_color }}"
+            role="progressbar" aria-valuerow="25" aria-valuemin="0" aria-valuemax="100"
+            style="width: {{ cvss2_risk.percentage }}%">
+            {{ cvss2_risk.expr }}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+<h2 class="mt-5 border-bottom border-warning">・公開日</h2>
+<div class="row ml-3 lead">{{ context.published_date|date:"Y/m/d" }}</div>
+<h2 class="mt-5 border-bottom border-warning">・更新日</h2>
+<div class="row ml-3 lead">{{ context.updated_date|date:"Y/m/d" }}</div>
+<h2 class="mt-5 border-bottom border-warning">・リンク</h2>
+{% for link in context.links %}
+<div class="row ml-3 lead"><a target="_blank" href="{{ link.url }}">{{ link.title }}</a></div>
+{% endfor %}
+{% endblock %}

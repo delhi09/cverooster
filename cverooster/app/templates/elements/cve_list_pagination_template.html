@@ -1,0 +1,71 @@
+<nav aria-label="pagination" class="mt-2">
+    <ul class="pagination justify-content-center">
+        <% if(current_page > 1) { %>
+        <li class="page-item">
+            <a class="page-link do_filter" href="" data-page="<%- current_page - 1 %>" aria-label="前へ">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">前へ</span>
+            </a>
+        </li>
+        <% } %>
+        <%
+            if(current_page - 1 <= prev_page_disp_limit) {
+                for(prev_page=1; prev_page < current_page; prev_page++) {
+        %>
+        <li class="page-item"><a class="page-link do_filter" href="" data-page="<%- prev_page %>"><%- prev_page %></a>
+        </li>
+        <%
+                }
+            } else if(current_page - prev_page_disp_limit == 2) {
+        %>
+        <li class="page-item"><a class="page-link do_filter" href="" data-page="1">1</a></li>
+        <%
+                for(prev_page=current_page - prev_page_disp_limit; prev_page < current_page; prev_page++) {
+        %>
+        <li class="page-item"><a class="page-link do_filter" href="" data-page="<%- prev_page %>"><%- prev_page %></a>
+        </li>
+        <%
+                }
+            } else {
+        %>
+        <li class="page-item"><a class="page-link do_filter" href="" data-page="1">1</a></li>
+        <li class="ml-3 mr-3">...</li>
+        <%
+                for(prev_page=current_page - prev_page_disp_limit; prev_page < current_page; prev_page++) {
+        %>
+        <li class="page-item"><a class="page-link do_filter" href="" data-page="<%- prev_page %>"><%- prev_page %></a>
+        </li>
+        <%
+                }
+            }
+        %>
+        <li class="page-item active"><a class="page-link do_filter" href=""
+                data-page="<%- current_page %>"><%- current_page %></a></li>
+        <%
+            if(max_page <= current_page + next_page_disp_limit) {
+                for(next_page=current_page+1; next_page <= max_page; next_page++) {
+        %>
+        <li class="page-item"><a class="page-link do_filter" href="" data-page="<%- next_page %>"><%- next_page %></a>
+        </li>
+        <%
+                }
+            } else {
+                for(next_page=current_page + 1; next_page <= current_page+next_page_disp_limit; next_page++) {
+        %>
+        <li class="page-item"><a class="page-link do_filter" href="" data-page="<%- next_page %>"><%- next_page %></a>
+        </li>
+        <%      }        %>
+        <li class="ml-3 mr-3">...</li>
+        <li class="page-item"><a class="page-link do_filter" href="" data-page="<%- max_page %>"><%- max_page %></a>
+        </li>
+        <%   }    %>
+        <% if(current_page < max_page) { %>
+        <li class="page-item">
+            <a class="page-link do_filter" href="" data-page="<%- current_page + 1 %>" aria-label="次へ">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">次へ</span>
+            </a>
+        </li>
+        <%   }    %>
+    </ul>
+</nav>
