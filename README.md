@@ -76,7 +76,7 @@ source .venv/bin/activate
 
 ### ・必要なパッケージのインストール
 ```shell
-pip3 install -r requirements/local.txt
+pip3 install -r requirements.txt
 ```
 
 ※ Macでmysqlclientのインストール時にエラーが発生する場合は以下の記事参照
@@ -90,8 +90,8 @@ docker-compose up -d
 
 ### ・マイグレーション実行
 ```shell
-python3 config/manage.py makemigrations
-python3 config/manage.py migrate
+python3 cverooster/manage.py makemigrations
+python3 cverooster/manage.py migrate
 ```
 
 ### ・サンプルデータインポート
@@ -102,7 +102,7 @@ mysql -u root -ppassword -h 127.0.0.1 cve < sample_data/cve_full_text_search.sql
 
 ### ・起動
 ```shell
-python3 config/manage.py runserver
+python3 cverooster/manage.py runserver
 ```
 
 ブラウザで以下のURLにアクセス<br>
