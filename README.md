@@ -64,7 +64,7 @@ CVE(Common Vulnerabilities and Exposures)を検索・管理できるサイトで
 
 ### ・リポジトリをクローン
 ```shell
-git clone https://github.com/kamatimaru/cverooster_api.git
+git clone https://github.com/kamatimaru/cverooster.git
 ```
 
 ### ・仮想環境構築
