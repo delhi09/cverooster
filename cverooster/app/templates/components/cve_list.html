@@ -1,0 +1,213 @@
+{% load static %}
+<script src="{% static "js/lib/vue.js" %}"></script>
+<script src="{% static "js/lib/axios.min.js" %}"></script>
+<script src="{% static "js/lib/js.cookie.min.js" %}"></script>
+<script src="{% static "js/lib/moment-with-locales.min.js" %}"></script>
+
+<div id="app">
+    <cve-list :cve-list-result="cveListResult">
+    </cve-list>
+</div>
+
+<script type="text/x-template" id="cve-list">
+    <div>
+        <h3 class="mt-5">結果</h3>
+        <div class="mt-3">
+            総数: ${cveListResult.total_count}件<br />
+            表示中: ${cveListResult.display_count_from}件 〜 ${cveListResult.display_count_to}件
+        </div>
+        <table class="table mt-3" style="table-layout: fixed;">
+            <thead class="bg-warning">
+                <tr>
+                    <th scope="col">CVE-ID</th>
+                    <th scope="col" class="w-20">概要</th>
+                    <th scope="col">公開日</th>
+                    <th scope="col">Severity</th>
+                    {% if user.is_authenticated %}
+                    <th scope="col">ステータス</th>
+                    <th scope="col" class="w-20">メモ(255文字以内)</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                <cve-list-row v-for="row in cveListResult.cve_list" :key="row.cve_id" :row="row">
+                </cve-list-row>
+            </tbody>
+        </table>
+    </div>
+</script>
+
+<script type="text/x-template" id="cve-list-row">
+    <tr>
+        <td>
+            <div>${row.cve_id}</div>
+            <div class="mt-4">
+                <div><a target="_blank" href="<%- row.detail_page_url %>">詳細ページ</a></div>
+                <div><a target="_blank" href="<%- row.cve_url %>">CVE(外部サイト)</a></div>
+                <div v-if="row.nvd_content_exists">
+                    <a target="_blank" :href="row.nvd_url">NVD(外部サイト)</a>
+                </div>
+            </div>
+        </td>
+        <td class="text-break">${row.cve_description|truncateString}</td>
+        <td>${row.published_date|displayDateFormat}</td>
+        <td>${severity}</td>
+        {% if user.is_authenticated %}
+        <td>
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input"
+                    type="checkbox"
+                    v-model="row.label_id"
+                    true-value="1">
+                    <label class="form-check-label">要対応</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input"
+                    type="checkbox"
+                    v-model="row.label_id"
+                    true-value="2">
+                    <label class="form-check-label">対応不要</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input"
+                    type="checkbox"
+                    v-model="row.label_id"
+                    true-value="3">
+                    <label class="form-check-label">対応済み</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="button" @click="saveCveLabel" class="btn btn-info btn-sm">保存</button>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <textarea class="form-control" rows="3" v-model="row.comment"></textarea>
+            </div>
+            <div>
+                <div class="form-group">
+                    <button type="button" @click="saveComment" class="btn btn-info btn-sm">保存</button>
+                </div>
+            </div>
+        </td>
+        {% endif %}
+    </tr>
+</script>
+
+<script>
+    Vue.mixin({ delimiters: ["${", "}"] }); // Djangoのtemplateの記法とのバッティング対応
+
+    Vue.component("cve-list", {
+        props: {
+            cveListResult: {
+                type: Object,
+                required: true
+            },
+        },
+        template: "#cve-list",
+    });
+    Vue.component("cve-list-row", {
+        props: {
+            row: {
+                type: Object,
+                required: true
+            },
+        },
+        template: "#cve-list-row",
+        methods: {
+            saveCveLabel: function () {
+                const csrf_token = Cookies.get("csrftoken");
+                const data = {
+                    cve_id: this.row.cve_id,
+                    label: this.row.label_id
+                };
+                const etc = {
+                    headers: {
+                        "X-CSRFToken": csrf_token
+                    }
+                };
+                const api_url = "http://localhost:8000/api/cve/save_user_cve_label";
+                axios.post(api_url, data, etc).then(response => {
+                }).catch(response => console.log(response))
+            },
+            saveComment: function () {
+                const csrf_token = Cookies.get("csrftoken");
+                const data = {
+                    cve_id: this.row.cve_id,
+                    comment: this.row.comment
+                };
+                const etc = {
+                    headers: {
+                        "X-CSRFToken": csrf_token
+                    }
+                };
+                const api_url = "http://localhost:8000/api/cve/save_user_cve_comment";
+                axios.post(api_url, data, etc).then(response => {
+                }).catch(response => console.log(response))
+            }
+        },
+        filters: {
+            truncateString: function (value) {
+                const cve_description_max_length = 150;
+                if (value.length <= cve_description_max_length) {
+                    return value;
+                }
+                return value.substring(0, cve_description_max_length + 1) + "...";
+            },
+            displayDateFormat: function (value) {
+                if (!value) {
+                    return "-";
+                }
+                moment.locale("ja")
+                return moment(value).format("YYYY/M/D");
+            },
+        },
+        computed: {
+            severity: function () {
+                const severity_critical = "CRITICAL";
+                const severity_high = "HIGH";
+                const severity_medium = "MEDIUM";
+                const severity_low = "LOW";
+                if (this.row.cvss3_severity == severity_critical || this.row.cvss2_severity == severity_critical) {
+                    return severity_critical;
+                } else if (this.row.cvss3_severity == severity_high || this.row.cvss2_severity == severity_high) {
+                    return severity_high;
+                } else if (this.row.cvss3_severity == severity_medium || this.row.cvss2_severity == severity_medium) {
+                    return severity_medium;
+                } else if (this.row.cvss3_severity == severity_low || this.row.cvss2_severity == severity_low) {
+                    return severity_low;
+                } else {
+                    return "-";
+                }
+            }
+        }
+    });
+    new Vue({
+        el: "#app",
+        data: function () {
+            return {
+                cveListResult: {
+                    total_count: null,
+                    display_count_from: null,
+                    display_count_to: null,
+                    cve_list: [],
+                    current_page: null,
+                    max_page: null,
+                    prev_page_disp_limit: 10,
+                    next_page_disp_limit: 10,
+                },
+            }
+        },
+        mounted: function () {
+            axios.get("http://localhost:8000/api/cve/list")
+                .then(response => {
+                    this.cveListResult.total_count = response.data.result.total_count;
+                    this.cveListResult.display_count_from = response.data.result.display_count_from;
+                    this.cveListResult.display_count_to = response.data.result.display_count_to;
+                    this.cveListResult.cve_list = response.data.result.cve_list;
+
+                }).catch(response => console.log(response))
+        }
+    });
+</script>

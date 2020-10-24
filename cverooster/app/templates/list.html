@@ -10,13 +10,8 @@
 {% endif %}
 <div id="result_section" class="mt-5 border-top border-warning">
 </div>
+{% include "components/cve_list.html" %}
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static "js/lib/js.cookie.min.js" %}"></script>
-<script src="{% static "js/lib/underscore-min.js" %}"></script>
-<script src="{% static "js/lib/moment-with-locales.min.js" %}"></script>
-<script src="{% static "js/src/list/collect_filter_conditions.js" %}"></script>
-<script src="{% static "js/src/common/fetch_and_render_cve_list.js" %}"></script>
-<script src="{% static "js/src/list/main.js" %}"></script>
 {% endblock %}
