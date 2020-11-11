@@ -3,13 +3,6 @@
 {% block content %}
 {% include "elements/cve_list_template.html" %}
 <h1 class="mt-5">CVE一覧</h1>
-{% if user.is_authenticated %}
-{% include "elements/filter_section_login.html" %}
-{% else %}
-{% include "elements/filter_section_nologin.html" %}
-{% endif %}
-<div id="result_section" class="mt-5 border-top border-warning">
-</div>
 {% include "components/cve_list.html" %}
 {% endblock %}
 
