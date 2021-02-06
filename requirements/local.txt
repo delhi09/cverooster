@@ -1,4 +1,5 @@
 -r base.txt
+tox
 flake8
 black
 isort
