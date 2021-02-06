@@ -1,6 +1,6 @@
-import re
 from datetime import date
 from distutils.util import strtobool
+import re
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
@@ -13,7 +13,12 @@ class UserSettingsForm(forms.Form):
     severity = forms.CharField(required=False)
     year = forms.IntegerField(required=False)
     label = forms.MultipleChoiceField(
-        choices=(("ALL", "全て"), ("1", "要対応"), ("2", "対応不要"), ("3", "対応済み"),),
+        choices=(
+            ("ALL", "全て"),
+            ("1", "要対応"),
+            ("2", "対応不要"),
+            ("3", "対応済み"),
+        ),
         error_messages={"invalid": "存在しないlabelを指定しています。"},
         required=False,
     )

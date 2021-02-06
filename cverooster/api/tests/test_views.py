@@ -1,5 +1,5 @@
-import json
 from datetime import date
+import json
 
 from django.urls import reverse
 from rest_framework import status
@@ -68,7 +68,9 @@ class TestCveListAPIView(APITransactionTestCase):
 
     def test_normal_nologin(self):
         CveFactory.create(
-            cve_id="CVE-2019-0001", cve_year=2019, cve_number=1,
+            cve_id="CVE-2019-0001",
+            cve_year=2019,
+            cve_number=1,
         )
         response = self.client.get(reverse("cverooster_api:cve_list"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -99,7 +101,9 @@ class TestCveListAPIView(APITransactionTestCase):
 
     def test_normal_login(self):
         CveFactory.create(
-            cve_id="CVE-2019-0001", cve_year=2019, cve_number=1,
+            cve_id="CVE-2019-0001",
+            cve_year=2019,
+            cve_number=1,
         )
         UserFactory.create(username="user", password="password")
         UserCveLabelFactory.create(
@@ -207,10 +211,14 @@ class TestCveListAPIView(APITransactionTestCase):
 
     def test_year_is_2020(self):
         CveFactory.create(
-            cve_id="CVE-2019-0001", cve_year=2019, cve_number=1,
+            cve_id="CVE-2019-0001",
+            cve_year=2019,
+            cve_number=1,
         )
         CveFactory.create(
-            cve_id="CVE-2020-0001", cve_year=2020, cve_number=1,
+            cve_id="CVE-2020-0001",
+            cve_year=2020,
+            cve_number=1,
         )
         params = ["year=2020"]
         response = self.client.get(
@@ -314,7 +322,9 @@ class TestCveListAPIView(APITransactionTestCase):
             cve_full_text_search__cve_text_for_search="Python",
         )
         CveFactory.create(
-            cve_id="CVE-2019-0002", cve_year=2019, cve_number=2,
+            cve_id="CVE-2019-0002",
+            cve_year=2019,
+            cve_number=2,
         )
         params = ["keyword=python"]
         response = self.client.get(
@@ -371,13 +381,19 @@ class TestCveListAPIView(APITransactionTestCase):
 
     def test_label_is_1(self):
         CveFactory.create(
-            cve_id="CVE-2019-0001", cve_year=2019, cve_number=1,
+            cve_id="CVE-2019-0001",
+            cve_year=2019,
+            cve_number=1,
         )
         CveFactory.create(
-            cve_id="CVE-2019-0002", cve_year=2019, cve_number=2,
+            cve_id="CVE-2019-0002",
+            cve_year=2019,
+            cve_number=2,
         )
         CveFactory.create(
-            cve_id="CVE-2019-0003", cve_year=2019, cve_number=3,
+            cve_id="CVE-2019-0003",
+            cve_year=2019,
+            cve_number=3,
         )
         UserFactory.create(username="user", password="password")
         UserCveLabelFactory.create(
@@ -406,13 +422,19 @@ class TestCveListAPIView(APITransactionTestCase):
 
     def test_label_is_1_nologin(self):
         CveFactory.create(
-            cve_id="CVE-2019-0001", cve_year=2019, cve_number=1,
+            cve_id="CVE-2019-0001",
+            cve_year=2019,
+            cve_number=1,
         )
         CveFactory.create(
-            cve_id="CVE-2019-0002", cve_year=2019, cve_number=2,
+            cve_id="CVE-2019-0002",
+            cve_year=2019,
+            cve_number=2,
         )
         CveFactory.create(
-            cve_id="CVE-2019-0003", cve_year=2019, cve_number=3,
+            cve_id="CVE-2019-0003",
+            cve_year=2019,
+            cve_number=3,
         )
         UserFactory.create(username="user", password="password")
         UserCveLabelFactory.create(
@@ -437,13 +459,19 @@ class TestCveListAPIView(APITransactionTestCase):
 
     def test_label_is_1_and_2(self):
         CveFactory.create(
-            cve_id="CVE-2019-0001", cve_year=2019, cve_number=1,
+            cve_id="CVE-2019-0001",
+            cve_year=2019,
+            cve_number=1,
         )
         CveFactory.create(
-            cve_id="CVE-2019-0002", cve_year=2019, cve_number=2,
+            cve_id="CVE-2019-0002",
+            cve_year=2019,
+            cve_number=2,
         )
         CveFactory.create(
-            cve_id="CVE-2019-0003", cve_year=2019, cve_number=3,
+            cve_id="CVE-2019-0003",
+            cve_year=2019,
+            cve_number=3,
         )
         UserFactory.create(username="user", password="password")
         UserCveLabelFactory.create(
@@ -519,7 +547,9 @@ class TestCveListAPIView(APITransactionTestCase):
             cve_full_text_search__cve_text_for_search="Python",
         )
         CveFactory.create(
-            cve_id="CVE-2019-0002", cve_year=2019, cve_number=2,
+            cve_id="CVE-2019-0002",
+            cve_year=2019,
+            cve_number=2,
         )
         UserFactory.create(username="user", password="password")
         UserKeywordFactory.create(
@@ -547,7 +577,9 @@ class TestCveListAPIView(APITransactionTestCase):
             cve_full_text_search__cve_text_for_search="Python",
         )
         CveFactory.create(
-            cve_id="CVE-2019-0002", cve_year=2019, cve_number=2,
+            cve_id="CVE-2019-0002",
+            cve_year=2019,
+            cve_number=2,
         )
         UserFactory.create(username="user", password="password")
         UserKeywordFactory.create(
@@ -573,7 +605,9 @@ class TestCveListAPIView(APITransactionTestCase):
             cve_full_text_search__cve_text_for_search="Python",
         )
         CveFactory.create(
-            cve_id="CVE-2019-0002", cve_year=2019, cve_number=2,
+            cve_id="CVE-2019-0002",
+            cve_year=2019,
+            cve_number=2,
         )
         UserFactory.create(username="user", password="password")
         UserKeywordFactory.create(
@@ -879,7 +913,9 @@ class TestDeleteUserKeywordAPIView(APITestCase):
 class TestSaveUserCveCommentAPIView(APITestCase):
     def test_normal_insert(self):
         CveFactory.create(
-            cve_id="CVE-2019-0001", cve_year=2019, cve_number=1,
+            cve_id="CVE-2019-0001",
+            cve_year=2019,
+            cve_number=1,
         )
         UserFactory.create(username="user", password="password")
         logged_in = self.client.login(username="user", password="password")
@@ -897,7 +933,9 @@ class TestSaveUserCveCommentAPIView(APITestCase):
 
     def test_normal_update(self):
         CveFactory.create(
-            cve_id="CVE-2019-0001", cve_year=2019, cve_number=1,
+            cve_id="CVE-2019-0001",
+            cve_year=2019,
+            cve_number=1,
         )
         UserFactory.create(username="user", password="password")
         UserCveCommentFactory.create(
@@ -944,7 +982,9 @@ class TestSaveUserCveCommentAPIView(APITestCase):
 class TestDeleteUserCveCommentAPIView(APITestCase):
     def test_normal_delete(self):
         CveFactory.create(
-            cve_id="CVE-2019-0001", cve_year=2019, cve_number=1,
+            cve_id="CVE-2019-0001",
+            cve_year=2019,
+            cve_number=1,
         )
         UserFactory.create(username="user", password="password")
         UserCveCommentFactory.create(
@@ -968,7 +1008,9 @@ class TestDeleteUserCveCommentAPIView(APITestCase):
 
     def test_resource_not_exist(self):
         CveFactory.create(
-            cve_id="CVE-2019-0001", cve_year=2019, cve_number=1,
+            cve_id="CVE-2019-0001",
+            cve_year=2019,
+            cve_number=1,
         )
         UserFactory.create(username="user", password="password")
         logged_in = self.client.login(username="user", password="password")
@@ -1012,7 +1054,9 @@ class TestDeleteUserCveCommentAPIView(APITestCase):
 class TestSaveUserCveLabelAPIView(APITestCase):
     def test_normal_insert(self):
         CveFactory.create(
-            cve_id="CVE-2019-0001", cve_year=2019, cve_number=1,
+            cve_id="CVE-2019-0001",
+            cve_year=2019,
+            cve_number=1,
         )
         UserFactory.create(username="user", password="password")
         logged_in = self.client.login(username="user", password="password")
@@ -1031,7 +1075,9 @@ class TestSaveUserCveLabelAPIView(APITestCase):
 
     def test_normal_update(self):
         CveFactory.create(
-            cve_id="CVE-2019-0001", cve_year=2019, cve_number=1,
+            cve_id="CVE-2019-0001",
+            cve_year=2019,
+            cve_number=1,
         )
         UserFactory.create(username="user", password="password")
         UserCveLabelFactory.create(
@@ -1088,7 +1134,9 @@ class TestSaveUserCveLabelAPIView(APITestCase):
 class TestDeleteUserCveLabelAPIView(APITestCase):
     def test_normal_delete(self):
         CveFactory.create(
-            cve_id="CVE-2019-0001", cve_year=2019, cve_number=1,
+            cve_id="CVE-2019-0001",
+            cve_year=2019,
+            cve_number=1,
         )
         UserFactory.create(username="user", password="password")
         UserCveLabelFactory.create(
@@ -1112,7 +1160,9 @@ class TestDeleteUserCveLabelAPIView(APITestCase):
 
     def test_resource_not_exist(self):
         CveFactory.create(
-            cve_id="CVE-2019-0001", cve_year=2019, cve_number=1,
+            cve_id="CVE-2019-0001",
+            cve_year=2019,
+            cve_number=1,
         )
         UserFactory.create(username="user", password="password")
         logged_in = self.client.login(username="user", password="password")

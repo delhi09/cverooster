@@ -1,7 +1,7 @@
 from datetime import datetime
 
-import factory
 from django.utils import timezone
+import factory
 
 from core.models import (
     AppUser,

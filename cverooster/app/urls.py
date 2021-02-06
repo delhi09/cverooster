@@ -12,8 +12,20 @@ urlpatterns = [
         views.UserKeywordList.as_view(),
         name="user_keyword_list",
     ),
-    path("mypage/settings", views.UserSettings.as_view(), name="user_settings",),
-    path("account/signup", views.SignupView.as_view(), name="signup",),
-    path("account/login", views.CustomLoginView.as_view(), name="login",),
+    path(
+        "mypage/settings",
+        views.UserSettings.as_view(),
+        name="user_settings",
+    ),
+    path(
+        "account/signup",
+        views.SignupView.as_view(),
+        name="signup",
+    ),
+    path(
+        "account/login",
+        views.CustomLoginView.as_view(),
+        name="login",
+    ),
     path("account/logout", views.CustomLogoutView.as_view(), name="logout"),
 ]

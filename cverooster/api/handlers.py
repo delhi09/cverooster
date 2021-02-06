@@ -1,5 +1,5 @@
-import logging
 from dataclasses import asdict
+import logging
 
 from rest_framework import status
 from rest_framework.exceptions import APIException
