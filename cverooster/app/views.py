@@ -1,5 +1,5 @@
-import re
 from dataclasses import asdict
+import re
 
 from django.contrib import messages
 from django.contrib.auth import login
@@ -28,7 +28,7 @@ from app.services import (
 
 def csrf_failure(request, reason=""):
     """CSRF認証失敗時に呼ばれる関数ビュー
-    
+
     Djangoの仕様により、403.htmlを配置していても、CSRF認証失敗時には
     Djangoの組み込みの別のエラー画面が表示される。
 

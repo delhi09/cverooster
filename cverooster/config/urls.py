@@ -20,13 +20,9 @@ urlpatterns = [
     path("api/", include("api.urls")),
     path("", include("app.urls")),
 ]
-if settings.DEBUG:
-    import debug_toolbar
-
-    urlpatterns.append(path("__debug__/", include(debug_toolbar.urls)))
-
 # 「settings.DEBUG」で判定するとユニットテスト実行時に以下のエラーが発生するので、
-# 「settings.DEBUG」ではなく「"silk" in settings.INSTALLED_APPS」で判定する。
+# 「settings.DEBUG」ではなく「"debug_toolbar" in settings.INSTALLED_APPS」で
+# 判定する。 ※ silkの場合も同様
 #
 # [発生するエラー]
 # django.urls.exceptions.NoReverseMatch: 'djdt' is not a registered namespace
@@ -36,5 +32,9 @@ if settings.DEBUG:
 # 詳細は以下を参照
 # https://github.com/jazzband/django-silk/issues/74#issuecomment-407154467
 # https://docs.djangoproject.com/en/3.0/topics/testing/overview/#other-test-conditions
+if "debug_toolbar" in settings.INSTALLED_APPS:
+    import debug_toolbar
+
+    urlpatterns.append(path("__debug__/", include(debug_toolbar.urls)))
 if "silk" in settings.INSTALLED_APPS:
     urlpatterns.append(path("silk/", include("silk.urls", namespace="silk")))

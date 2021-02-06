@@ -207,7 +207,10 @@ class CveListService:
         user_filter_setting = UserFilterSetting.objects.filter(user__id=user_id).first()
         if not user_filter_setting:
             return UserFilterSettings(
-                severity=None, year=None, label_id_list=[], enable_user_keyword=True,
+                severity=None,
+                year=None,
+                label_id_list=[],
+                enable_user_keyword=True,
             )
         severity = (
             user_filter_setting.severity.cve_severity_code

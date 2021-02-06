@@ -28,8 +28,16 @@ LOGGING = {
         },
     },
     "loggers": {
-        "django": {"handlers": ["file"], "level": "INFO", "propagate": False,},
-        "": {"handlers": ["file"], "level": "INFO", "propagate": False,},
+        "django": {
+            "handlers": ["file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "": {
+            "handlers": ["file"],
+            "level": "INFO",
+            "propagate": False,
+        },
     },
 }
 
@@ -50,7 +58,9 @@ CACHES = {
         "LOCATION": "redis://{host}:{port}".format(
             host=env("REDIS_HOST"), port=env("REDIS_PORT")
         ),
-        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient",},
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
     }
 }
 

@@ -65,7 +65,9 @@ class TestCveListAPIService(TransactionTestCase):
             cvss3=Cvss3Factory.build(cvss3_severity_code="HIGH"),
         )
         CveFactory.create(
-            cve_id="CVE-2020-0001", cve_year=2020, cve_number=1,
+            cve_id="CVE-2020-0001",
+            cve_year=2020,
+            cve_number=1,
         )
         CveFactory.create(
             cve_id="CVE-2019-0003",
@@ -139,7 +141,11 @@ class TestCveListAPIService(TransactionTestCase):
     def test_severity_is_HIGH(self):
         service = CveListAPIService()
         result = service.find_cve_list(
-            severity="HIGH", year=None, keyword=None, page=1, display_count_per_page=10,
+            severity="HIGH",
+            year=None,
+            keyword=None,
+            page=1,
+            display_count_per_page=10,
         )
         self.assertEqual(result.total_count, 3)
         self.assertEqual(result.cve_list[0].cve_id, "CVE-2019-0006")
@@ -161,7 +167,11 @@ class TestCveListAPIService(TransactionTestCase):
     def test_year_is_2020(self):
         service = CveListAPIService()
         result = service.find_cve_list(
-            severity=None, year=2020, keyword=None, page=1, display_count_per_page=10,
+            severity=None,
+            year=2020,
+            keyword=None,
+            page=1,
+            display_count_per_page=10,
         )
         self.assertEqual(result.total_count, 1)
         self.assertEqual(result.cve_list[0].cve_id, "CVE-2020-0001")
@@ -317,7 +327,11 @@ class TestCveListAPIService(TransactionTestCase):
             CveFactory.create(cve_id=f"CVE-2019-{i:04}", cve_year=2019, cve_number=i)
         service = CveListAPIService()
         result = service.find_cve_list(
-            severity=None, year=None, keyword=None, page=1, display_count_per_page=10,
+            severity=None,
+            year=None,
+            keyword=None,
+            page=1,
+            display_count_per_page=10,
         )
         self.assertEqual(result.display_count_from, 1)
         self.assertEqual(result.display_count_to, 10)
@@ -332,7 +346,11 @@ class TestCveListAPIService(TransactionTestCase):
             CveFactory.create(cve_id=f"CVE-2019-{i:04}", cve_year=2019, cve_number=i)
         service = CveListAPIService()
         result = service.find_cve_list(
-            severity=None, year=None, keyword=None, page=1, display_count_per_page=10,
+            severity=None,
+            year=None,
+            keyword=None,
+            page=1,
+            display_count_per_page=10,
         )
         self.assertEqual(result.display_count_from, 1)
         self.assertEqual(result.display_count_to, 10)
@@ -347,7 +365,11 @@ class TestCveListAPIService(TransactionTestCase):
             CveFactory.create(cve_id=f"CVE-2019-{i:04}", cve_year=2019, cve_number=i)
         service = CveListAPIService()
         result = service.find_cve_list(
-            severity=None, year=None, keyword=None, page=2, display_count_per_page=10,
+            severity=None,
+            year=None,
+            keyword=None,
+            page=2,
+            display_count_per_page=10,
         )
         self.assertEqual(result.display_count_from, 11)
         self.assertEqual(result.display_count_to, 11)
@@ -361,7 +383,11 @@ class TestCveListAPIService(TransactionTestCase):
             CveFactory.create(cve_id=f"CVE-2019-{i:04}", cve_year=2019, cve_number=i)
         service = CveListAPIService()
         result = service.find_cve_list(
-            severity=None, year=None, keyword=None, page=2, display_count_per_page=10,
+            severity=None,
+            year=None,
+            keyword=None,
+            page=2,
+            display_count_per_page=10,
         )
         self.assertEqual(result.display_count_from, 11)
         self.assertEqual(result.display_count_to, 12)
@@ -376,7 +402,11 @@ class TestCveListAPIService(TransactionTestCase):
             CveFactory.create(cve_id=f"CVE-2019-{i:04}", cve_year=2019, cve_number=i)
         service = CveListAPIService()
         result = service.find_cve_list(
-            severity=None, year=None, keyword=None, page=1, display_count_per_page=10,
+            severity=None,
+            year=None,
+            keyword=None,
+            page=1,
+            display_count_per_page=10,
         )
         self.assertEqual(result.display_count_from, 1)
         self.assertEqual(result.display_count_to, 10)
@@ -391,7 +421,11 @@ class TestCveListAPIService(TransactionTestCase):
             CveFactory.create(cve_id=f"CVE-2019-{i:04}", cve_year=2019, cve_number=i)
         service = CveListAPIService()
         result = service.find_cve_list(
-            severity=None, year=None, keyword=None, page=2, display_count_per_page=10,
+            severity=None,
+            year=None,
+            keyword=None,
+            page=2,
+            display_count_per_page=10,
         )
         self.assertEqual(result.display_count_from, 11)
         self.assertEqual(result.display_count_to, 20)
@@ -406,7 +440,11 @@ class TestCveListAPIService(TransactionTestCase):
             CveFactory.create(cve_id=f"CVE-2019-{i:04}", cve_year=2019, cve_number=i)
         service = CveListAPIService()
         result = service.find_cve_list(
-            severity=None, year=None, keyword=None, page=3, display_count_per_page=10,
+            severity=None,
+            year=None,
+            keyword=None,
+            page=3,
+            display_count_per_page=10,
         )
         self.assertEqual(result.display_count_from, 21)
         self.assertEqual(result.display_count_to, 21)
