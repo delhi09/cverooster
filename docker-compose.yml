@@ -1,7 +1,7 @@
 version: "3"
 services:
     db_server:
-        image: kamatimaru/mysql57-ja:latest
+        image: kamatimaru/mysql80-ja:latest
         ports: 
             - "3306:3306"
         environment: 
