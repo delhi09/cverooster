@@ -20,4 +20,4 @@ jobs:
             - name: Check Code Format
               run: tox -e flake8
             - name: Unit Test
-              run: tox -e testapp
+              run: tox -e py37
